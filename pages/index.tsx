@@ -1,25 +1,23 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useState } from "react";
 import 'semantic-ui-css/semantic.min.css';
 import { Loader } from "semantic-ui-react";
 
-const inter = Inter({ subsets: ["latin"] });
 
-interface SeartchCatImage{
+interface SearchCatImage{
   id: string;
   url: string;
   width: number;
-  heigth: number;
+  height: number;
 }
 
 interface IndexPageProps{
-initialCatImageUrl : string;
+  initialCatImageUrl : string;
 }
 
-const fetchCatImage = async() :Promise<SeartchCatImage> =>{
+const fetchCatImage = async() :Promise<SearchCatImage> =>{
   const res = await fetch("https://api.thecatapi.com/v1/images/search");
   const result = await res.json();
   return result[0];
@@ -43,24 +41,21 @@ const Home: NextPage<IndexPageProps> = ({initialCatImageUrl}) => {
         <title>cat app</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-      <h1>猫画像アプリ</h1>
-      {isLoading ? (<Loader active/>
-    ) : (<div className={styles.img}>
-      <img src={catImageUrl}/>
-      </div>)}
       
-      <button className={styles.btn} onClick={handleClick}>
-        今日の猫さん
+      <main className={styles.main}>
+        <h1>猫画像アプリ</h1>
+        {isLoading ? (<Loader active/>) : 
+        (<img className={styles.img} src={catImageUrl}/>)}
+      
+        <button className={styles.btn} onClick={handleClick}>
+          今日の猫さん
         </button>
-    </main>
+      </main>
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-IndexPageProps
->= async () => {
+export const getServerSideProps: GetServerSideProps<IndexPageProps> = async () => {
   const catImage = await fetchCatImage();
   return{
     props: {
