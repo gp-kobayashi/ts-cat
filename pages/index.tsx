@@ -29,7 +29,7 @@ const fetchCatImage = async() :Promise<SeartchCatImage> =>{
 
 const Home: NextPage<IndexPageProps> = ({initialCatImageUrl}) => {
 
-  const [catImageUrl, setCatImageUrl] = useState("initialCatImageUrl");
+  const [catImageUrl, setCatImageUrl] = useState(initialCatImageUrl);
   const [isLoading, setIsLoading]= useState(false);
 
   const handleClick = async() => {
